@@ -1,0 +1,27 @@
+name: "corgea"
+description: "Automatically find and fix vulnerable code"
+author: "Corgea"
+
+inputs:
+  corgea-token:
+    description: "Corgea API Token"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11.7'
+    - name: Install Semgrep
+      run: pip install semgrep
+    - name: download corgea
+      run: wget -O corgea.zip https://cli.corgea.app/x86_64_linux/latest && unzip corgea.zip
+    - name: Scan
+      run: semgrep ci --config auto --json -o semgrep_scan.json || true
+    - name: Upload to Corgea
+      env:
+        CORGEA_TOKEN: ${{ inputs.corgea-token }}
+      run: |
+        ./corgea upload semgrep_scan.json
