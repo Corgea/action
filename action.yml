@@ -23,5 +23,6 @@ runs:
     - name: Upload to Corgea
       env:
         CORGEA_TOKEN: ${{ inputs.corgea-token }}
+        GITHUB_PR: ${{ github.event.number }}
       run: |
         ./corgea upload semgrep_scan.json
