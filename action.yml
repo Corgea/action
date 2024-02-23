@@ -28,7 +28,7 @@ runs:
       shell: bash -l {0}
       run: |
         cd ${{ github.workspace }}
-        semgrep ci --config auto --json -o semgrep_scan.json || true
+        semgrep scan --config auto --json -o semgrep_scan.json .
     - name: Upload to Corgea
       shell: bash -l {0}
       env:
