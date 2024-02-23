@@ -6,6 +6,10 @@ inputs:
   corgea-token:
     description: "Corgea API Token"
     required: true
+  corgea-url:
+    description: "Corgea URL"
+    required: true
+    default: "https://www.corgea.app"
 
 runs:
   using: "composite"
@@ -22,6 +26,7 @@ runs:
       run: semgrep ci --config auto --json -o semgrep_scan.json || true
     - name: Upload to Corgea
       env:
+        CORGEA_URL: ${{ inputs.corgea-url }}
         CORGEA_TOKEN: ${{ inputs.corgea-token }}
         GITHUB_PR: ${{ github.event.number }}
       run: |
