@@ -19,12 +19,16 @@ runs:
       with:
         python-version: '3.11.7'
     - name: Install Semgrep
+      shell: bash -l {0}
       run: pip install semgrep
     - name: download corgea
+      shell: bash -l {0}
       run: wget -O corgea.zip https://cli.corgea.app/x86_64_linux/latest && unzip corgea.zip
     - name: Scan
+      shell: bash -l {0}
       run: semgrep ci --config auto --json -o semgrep_scan.json || true
     - name: Upload to Corgea
+      shell: bash -l {0}
       env:
         CORGEA_URL: ${{ inputs.corgea-url }}
         CORGEA_TOKEN: ${{ inputs.corgea-token }}
