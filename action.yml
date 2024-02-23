@@ -26,7 +26,9 @@ runs:
       run: wget -O corgea.zip https://cli.corgea.app/x86_64_linux/latest && unzip corgea.zip
     - name: Scan
       shell: bash -l {0}
-      run: semgrep ci --config auto --json -o semgrep_scan.json ${{ github.workspace }} || true
+      run: |
+        cd ${{ github.workspace }}
+        semgrep ci --config auto --json -o semgrep_scan.json || true
     - name: Upload to Corgea
       shell: bash -l {0}
       env:
@@ -34,4 +36,4 @@ runs:
         CORGEA_TOKEN: ${{ inputs.corgea-token }}
         GITHUB_PR: ${{ github.event.number }}
       run: |
-        ./corgea upload semgrep_scan.json
+        ./corgea upload ${{ github.workspace}}/semgrep_scan.json
